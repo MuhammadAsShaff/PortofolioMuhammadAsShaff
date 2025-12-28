@@ -45,7 +45,7 @@
 </script>
 
 <!-- Mobile Container: Full viewport height with proper flex layout -->
-<div class="min-h-screen h-screen w-full bg-cover bg-center flex flex-col relative font-sans select-none text-white overflow-hidden" 
+<div class="min-h-dvh h-dvh w-full bg-cover bg-center flex flex-col relative font-sans select-none text-white overflow-hidden" 
      style="background-image: url('/images/wallpaper.png');">
      
      <!-- Overlay -->
@@ -105,11 +105,8 @@
 
     </main>
     
-    <!-- Dock Area: Fixed bottom with generous spacing -->
-    <footer 
-        class="relative z-10 w-full flex justify-center px-[3vw]"
-        style="padding-bottom: calc(max(5vw, 20px) + env(safe-area-inset-bottom, 0px));"
-    >
+    <!-- Dock Area: Fixed bottom with dynamic viewport -->
+    <footer class="relative z-10 w-full flex justify-center px-[3vw] pb-[5vw] sm:pb-5">
         <!-- Dock Container: Fully responsive -->
         <div class="w-full max-w-[92vw] sm:max-w-md h-[23vw] max-h-[110px] bg-white/10 backdrop-blur-2xl rounded-[7vw] sm:rounded-[32px] px-[4vw] sm:px-5 flex items-center justify-evenly shadow-2xl border border-white/10 mb-[2vw] sm:mb-2">
              {#each dockApps as app}
