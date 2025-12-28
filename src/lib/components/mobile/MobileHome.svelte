@@ -44,42 +44,47 @@
     }
 </script>
 
-<div class="h-screen w-full bg-cover bg-center flex flex-col justify-between overflow-hidden relative font-sans select-none text-white" 
+<!-- Mobile Container: Full viewport height with proper flex layout -->
+<div class="min-h-screen h-screen w-full bg-cover bg-center flex flex-col relative font-sans select-none text-white overflow-hidden" 
      style="background-image: url('/images/wallpaper.png');">
      
-     <!-- Overlay for readability if needed (light tint) -->
-     <div class="absolute inset-0 bg-black/10 pointer-events-none z-0"></div>
+     <!-- Overlay -->
+     <div class="absolute inset-0 bg-black/10 pointer-events-none"></div>
 
-    <!-- Status Bar -->
-    <div class="h-12 sm:h-14 w-full flex items-center justify-between px-4 sm:px-6 pt-2 font-medium z-20 relative text-xs sm:text-sm tracking-wide">
-        <span class="w-16 sm:w-20 font-semibold">{currentTime}</span>
+    <!-- Status Bar: Responsive height and spacing -->
+    <header class="relative z-20 flex items-center justify-between px-[4vw] pt-safe h-[8vh] min-h-[48px] max-h-[60px]">
+        <!-- Time -->
+        <time class="text-[3.5vw] sm:text-sm font-semibold min-w-[15vw]">{currentTime}</time>
         
-        <!-- Dynamic Island / Notch -->
-        <div class="h-7 sm:h-8 w-24 sm:w-28 bg-black rounded-full absolute left-1/2 -translate-x-1/2 top-2 flex items-center justify-center shadow-lg">
-             <!-- Camera bump -->
-             <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#1a1a1a] ml-14 sm:ml-16 border border-[#333]"></div>
+        <!-- Dynamic Island -->
+        <div class="absolute left-1/2 top-2 -translate-x-1/2 h-[6vw] w-[28vw] max-h-8 max-w-[120px] bg-black rounded-full shadow-lg flex items-center justify-center">
+             <div class="w-[1.5vw] h-[1.5vw] max-w-2 max-h-2 rounded-full bg-[#1a1a1a] ml-[16vw] sm:ml-16 border border-[#333]"></div>
         </div>
         
-        <div class="flex items-center gap-1 sm:gap-1.5 w-16 sm:w-20 justify-end">
-            <img src="/icons/wifi.svg" alt="WiFi" class="w-3.5 h-3.5 sm:w-4 sm:h-4 dark:invert" />
-            <div class="w-4 sm:w-5 h-2 sm:h-2.5 rounded-sm border border-white flex items-center p-0.5 relative ml-1">
+        <!-- Status Icons -->
+        <div class="flex items-center gap-[2vw] sm:gap-2 min-w-[15vw] justify-end">
+            <img src="/icons/wifi.svg" alt="WiFi" class="w-[3.5vw] h-[3.5vw] max-w-4 max-h-4 dark:invert" />
+            <div class="w-[5vw] h-[2.5vw] max-w-5 max-h-2.5 rounded-sm border border-white flex items-center p-0.5">
                 <div class="h-full w-full bg-white rounded-[1px]"></div>
             </div>
         </div>
-    </div>
+    </header>
     
-    <!-- Desktop Area (Icons & Text) -->
-    <div class="flex-1 px-4 sm:px-6 pt-8 sm:pt-12 z-10 w-full relative">
+    <!-- Main Content Area: Flexible center section -->
+    <main class="flex-1 relative z-10 flex flex-col px-[4vw] pt-[4vh]">
         
-        <!-- Top Left Icons -->
-        <div class="flex gap-3 sm:gap-4 md:gap-5">
+        <!-- Top App Icons: Responsive grid -->
+        <div class="flex gap-[3vw] sm:gap-4">
             {#each desktopApps as app}
-                <button class="flex flex-col items-center gap-1.5 group focus:outline-none" onclick={() => launch(app.id)}>
-                    <div class="w-16 h-16 sm:w-[18vw] sm:h-[18vw] sm:max-w-[72px] sm:max-h-[72px] rounded-2xl sm:rounded-[18px] shadow-xl sm:shadow-2xl active:scale-95 transition-transform relative overflow-hidden bg-black/5 ring-1 ring-white/10">
+                <button 
+                    class="group focus:outline-none active:scale-95 transition-transform"
+                    onclick={() => launch(app.id)}
+                >
+                    <div class="w-[20vw] h-[20vw] max-w-[80px] max-h-[80px] rounded-[4.5vw] sm:rounded-[20px] shadow-xl bg-black/5 ring-1 ring-white/10 overflow-hidden">
                         {#if app.id === 'resume'}
-                             <img src="/images/pages.png" alt={app.label} class="w-full h-full object-contain p-1.5 sm:p-2" />
+                             <img src="/images/pages.png" alt={app.label} class="w-full h-full object-contain p-[2vw] sm:p-2" />
                         {:else if app.id === 'terminal'}
-                             <img src="/images/terminal.png" alt={app.label} class="w-full h-full object-contain p-1.5 sm:p-2" />
+                             <img src="/images/terminal.png" alt={app.label} class="w-full h-full object-contain p-[2vw] sm:p-2" />
                         {:else}
                              <img src={app.icon} alt={app.label} class="w-full h-full object-cover" />
                         {/if}
@@ -88,27 +93,38 @@
             {/each}
         </div>
 
-        <!-- Hero Text (Centered) -->
-        <div class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full px-4 sm:px-6 text-white">
-             <p class="text-sm sm:text-base md:text-lg font-light tracking-wide mb-0 sm:mb-1 opacity-80 mix-blend-overlay">
+        <!-- Hero Text: Centered with viewport-based sizing -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full px-[6vw]">
+             <p class="text-[3.8vw] sm:text-base md:text-lg font-light tracking-wide mb-1 opacity-80">
                 Hey, I'm Muhammad As Shaff! welcome to my
              </p>
-             <h1 class="text-[12vw] sm:text-[11vw] md:text-[58px] leading-none font-bold italic tracking-tighter drop-shadow-lg opacity-95" style="font-family: 'Georama', sans-serif;">
+             <h1 class="text-[13vw] sm:text-[11vw] md:text-6xl leading-[0.9] font-bold italic tracking-tighter drop-shadow-lg" style="font-family: 'Georama', sans-serif;">
                 portfolio.
              </h1>
         </div>
 
-    </div>
+    </main>
     
-    <!-- Mobile Dock Area - Uses safe-area-inset for browser compatibility -->
-    <div class="w-full relative px-3 sm:px-4 z-10 flex flex-col items-center" style="padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));">
-        <!-- Glass Dock: Scales with viewport -->
-        <div class="w-full h-[22vw] max-h-[110px] max-w-[95vw] sm:max-w-[370px] bg-white/10 backdrop-blur-2xl rounded-[8vw] sm:rounded-[36px] px-4 sm:px-6 flex items-center justify-between shadow-2xl border border-white/10 ring-1 ring-white/5 mb-4">
+    <!-- Dock Area: Fixed bottom with safe-area support -->
+    <footer 
+        class="relative z-10 w-full flex justify-center px-[3vw] pb-safe"
+        style="padding-bottom: max(4vw, env(safe-area-inset-bottom, 16px));"
+    >
+        <!-- Dock Container: Fully responsive -->
+        <div class="w-full max-w-[92vw] sm:max-w-md h-[23vw] max-h-[110px] bg-white/10 backdrop-blur-2xl rounded-[7vw] sm:rounded-[32px] px-[4vw] sm:px-5 flex items-center justify-evenly shadow-2xl border border-white/10 mb-[3vw] sm:mb-4">
              {#each dockApps as app}
-                <button class="w-[16vw] h-[16vw] max-w-[72px] max-h-[72px] rounded-[3.5vw] sm:rounded-[17px] flex items-center justify-center active:scale-90 transition-transform focus:outline-none relative group" onclick={() => launch(app.id)}>
-                     <img src={app.icon} alt={app.label} class="w-full h-full object-contain drop-shadow-lg filter brightness-105" draggable="false" />
+                <button 
+                    class="w-[17vw] h-[17vw] max-w-[75px] max-h-[75px] rounded-[3.5vw] sm:rounded-[16px] flex items-center justify-center active:scale-90 transition-transform focus:outline-none group"
+                    onclick={() => launch(app.id)}
+                >
+                     <img 
+                        src={app.icon} 
+                        alt={app.label} 
+                        class="w-full h-full object-contain drop-shadow-lg" 
+                        draggable="false" 
+                     />
                 </button>
             {/each}
         </div>
-    </div>
+    </footer>
 </div>
