@@ -67,11 +67,11 @@
                 onclick={item.action}
                 aria-label={item.name}
             >
-                <div class="w-full h-full text-5xl flex items-center justify-center bg-white/80 dark:bg-gray-800/80 shadow-lg rounded-xl overflow-hidden transition-all">
+                <div class="w-full h-full text-5xl flex items-center justify-center transition-all">
                    {#if item.icon.startsWith('http') || item.icon.startsWith('/')}
-                      <img src={item.icon} alt={item.name} class="w-full h-full object-cover" />
+                      <img src={item.icon} alt={item.name} class="w-full h-full object-contain drop-shadow-md" />
                    {:else}
-                      <span class="text-4xl">{item.icon}</span>
+                      <span class="text-4xl drop-shadow-md">{item.icon}</span>
                    {/if}
                 </div>
                 

@@ -68,9 +68,7 @@
              <!-- Theme Toggle with Dropdown -->
              <div class="relative">
                  <button onclick={toggleThemeMenu} class="focus:outline-none flex items-center">
-                    <svg class="w-5 h-5 dark:text-white dark:invert-0 opacity-90 hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4 2 2 0 000-4zm0 6V6m0 6a2 2 0 100 4 2 2 0 000-4zm0 6v-2m0 2a2 2 0 100-4 2 2 0 000 4zM4 6V4m0 2a2 2 0 100 4 2 2 0 000-4zm0 6V6m0 6a2 2 0 100 4 2 2 0 000-4zm0 6v-2m0 2a2 2 0 100-4 2 2 0 000 4zM20 6V4m0 2a2 2 0 100 4 2 2 0 000-4zm0 6V6m0 6a2 2 0 100 4 2 2 0 000-4zm0 6v-2m0 2a2 2 0 100-4 2 2 0 000 4z" />
-                    </svg>
+                    <img src="/icons/mode.svg" alt="Theme" class="w-4 h-4 dark:invert opacity-90 hover:opacity-100 transition-opacity" />
                  </button>
                  
                  {#if showThemeMenu}

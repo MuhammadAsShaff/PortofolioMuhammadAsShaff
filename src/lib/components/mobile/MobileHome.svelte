@@ -1,5 +1,6 @@
 <script lang="ts">
     import { mobileNav } from '$lib/stores/mobileNavStore';
+    import { onMount } from 'svelte';
     
     // Top Left Apps (Mini Desktop style)
     const desktopApps = [
@@ -14,6 +15,24 @@
          { id: 'photos', icon: '/images/photos.png', bg: 'bg-white', label: 'Gallery' },
          { id: 'contact', icon: '/images/contact.png', bg: 'bg-transparent', label: 'Contact' },
     ];
+    
+    // Live Clock
+    let currentTime = $state('');
+    
+    function updateTime() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const displayHours = hours % 12 || 12;
+        currentTime = `${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+    }
+    
+    onMount(() => {
+        updateTime();
+        const interval = setInterval(updateTime, 1000);
+        return () => clearInterval(interval);
+    });
     
     function launch(id: string) {
         if (id === 'resume') {
@@ -33,7 +52,7 @@
 
     <!-- Status Bar -->
     <div class="h-12 w-full flex items-center justify-between px-6 pt-2 font-medium z-20 relative text-sm tracking-wide">
-        <span class="w-16">4:20 PM</span>
+        <span class="w-20 font-semibold">{currentTime}</span>
         
         <!-- Dynamic Island / Notch -->
         <div class="h-[32px] w-[120px] bg-black rounded-full absolute left-1/2 -translate-x-1/2 top-2 flex items-center justify-center shadow-lg">
@@ -41,8 +60,8 @@
              <div class="w-2 h-2 rounded-full bg-[#1a1a1a] ml-[70px] border border-[#333]"></div>
         </div>
         
-        <div class="flex items-center gap-1.5 w-16 justify-end">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9 0 4.97 4.03 9 9 9s9-4.03 9-9c0-4.97-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7 0-3.86 3.14-7 7-7s7 3.14 7 7c0 3.86-3.14 7-7 7z" /></svg>
+        <div class="flex items-center gap-1.5 w-20 justify-end">
+            <img src="/icons/wifi.svg" alt="WiFi" class="w-4 h-4 dark:invert" />
             <div class="w-5 h-[10px] rounded-[3px] border border-white flex items-center p-0.5 relative ml-1">
                 <div class="h-full w-full bg-white rounded-[1px]"></div>
             </div>
@@ -86,12 +105,12 @@
 
     </div>
     
-    <!-- Mobile Dock Area -->
-    <div class="w-full relative px-4 pb-9 z-10 flex flex-col items-center">
-        <!-- Glass Dock: Taller, Darker, More Rounded -->
-        <div class="w-full h-[96px] max-w-[350px] bg-white/10 backdrop-blur-2xl rounded-[32px] px-5 flex items-center justify-between shadow-2xl border border-white/10 ring-1 ring-white/5">
+    <!-- Mobile Dock Area - Enlarged for better touch targets -->
+    <div class="w-full relative px-4 pb-12 z-10 flex flex-col items-center">
+        <!-- Glass Dock: Larger and more accessible -->
+        <div class="w-full h-[110px] max-w-[370px] bg-white/10 backdrop-blur-2xl rounded-[36px] px-6 flex items-center justify-between shadow-2xl border border-white/10 ring-1 ring-white/5">
              {#each dockApps as app}
-                <button class="w-[64px] h-[64px] rounded-[15px] flex items-center justify-center active:scale-90 transition-transform focus:outline-none relative group" onclick={() => launch(app.id)}>
+                <button class="w-[72px] h-[72px] rounded-[17px] flex items-center justify-center active:scale-90 transition-transform focus:outline-none relative group" onclick={() => launch(app.id)}>
                      <img src={app.icon} alt={app.label} class="w-full h-full object-contain drop-shadow-lg filter brightness-105" draggable="false" />
                 </button>
             {/each}
