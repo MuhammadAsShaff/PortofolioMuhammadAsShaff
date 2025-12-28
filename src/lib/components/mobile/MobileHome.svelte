@@ -77,14 +77,9 @@
                 <button class="flex flex-col items-center gap-1.5 group focus:outline-none" onclick={() => launch(app.id)}>
                     <div class="w-[72px] h-[72px] rounded-[18px] shadow-2xl active:scale-95 transition-transform relative overflow-hidden bg-black/5 ring-1 ring-white/10">
                         {#if app.id === 'resume'}
-                             <!-- Visual approximation of orange notes icon -->
-                             <div class="w-full h-full bg-[#ffad2a] flex items-center justify-center bg-gradient-to-br from-[#ffc845] to-[#ff9f0a]">
-                                 <span class="text-4xl drop-shadow-sm filter brightness-110">📝</span>
-                             </div>
+                             <img src="/images/pages.png" alt={app.label} class="w-full h-full object-contain p-2" />
                         {:else if app.id === 'terminal'}
-                             <div class="w-full h-full bg-[#1c1c1e] border border-white/10 flex items-center justify-center bg-gradient-to-b from-[#2c2c2e] to-[#000000]">
-                                 <span class="text-3xl font-mono text-white/90 font-bold">>_</span>
-                             </div>
+                             <img src="/images/terminal.png" alt={app.label} class="w-full h-full object-contain p-2" />
                         {:else}
                              <img src={app.icon} alt={app.label} class="w-full h-full object-cover" />
                         {/if}
@@ -106,7 +101,7 @@
     </div>
     
     <!-- Mobile Dock Area - Enlarged for better touch targets -->
-    <div class="w-full relative px-4 pb-12 z-10 flex flex-col items-center">
+    <div class="w-full relative px-4 pb-20 z-10 flex flex-col items-center">
         <!-- Glass Dock: Larger and more accessible -->
         <div class="w-full h-[110px] max-w-[370px] bg-white/10 backdrop-blur-2xl rounded-[36px] px-6 flex items-center justify-between shadow-2xl border border-white/10 ring-1 ring-white/5">
              {#each dockApps as app}
