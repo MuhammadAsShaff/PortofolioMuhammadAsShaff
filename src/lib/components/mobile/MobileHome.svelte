@@ -105,13 +105,13 @@
 
     </main>
     
-    <!-- Dock Area: Fixed bottom with safe-area support -->
+    <!-- Dock Area: Fixed bottom with generous spacing -->
     <footer 
-        class="relative z-10 w-full flex justify-center px-[3vw] pb-safe"
-        style="padding-bottom: max(4vw, env(safe-area-inset-bottom, 16px));"
+        class="relative z-10 w-full flex justify-center px-[3vw]"
+        style="padding-bottom: calc(max(5vw, 20px) + env(safe-area-inset-bottom, 0px));"
     >
         <!-- Dock Container: Fully responsive -->
-        <div class="w-full max-w-[92vw] sm:max-w-md h-[23vw] max-h-[110px] bg-white/10 backdrop-blur-2xl rounded-[7vw] sm:rounded-[32px] px-[4vw] sm:px-5 flex items-center justify-evenly shadow-2xl border border-white/10 mb-[3vw] sm:mb-4">
+        <div class="w-full max-w-[92vw] sm:max-w-md h-[23vw] max-h-[110px] bg-white/10 backdrop-blur-2xl rounded-[7vw] sm:rounded-[32px] px-[4vw] sm:px-5 flex items-center justify-evenly shadow-2xl border border-white/10 mb-[2vw] sm:mb-2">
              {#each dockApps as app}
                 <button 
                     class="w-[17vw] h-[17vw] max-w-[75px] max-h-[75px] rounded-[3.5vw] sm:rounded-[16px] flex items-center justify-center active:scale-90 transition-transform focus:outline-none group"
