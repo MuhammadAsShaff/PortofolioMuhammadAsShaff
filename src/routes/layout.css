@@ -1,3 +1,17 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+body {
+    font-family: 'Georama', sans-serif;
+    cursor: url('/icons/cursor-mac.svg'), auto; 
+    cursor: default;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+:root {
+  --font-georama: "Georama", sans-serif;
+  --font-roboto: "Roboto Mono", monospace;
+}
