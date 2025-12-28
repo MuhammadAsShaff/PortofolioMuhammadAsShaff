@@ -100,10 +100,10 @@
 
     </div>
     
-    <!-- Mobile Dock Area - Fully Responsive -->
-    <div class="w-full relative px-3 sm:px-4 pb-16 sm:pb-20 md:pb-24 z-10 flex flex-col items-center">
+    <!-- Mobile Dock Area - Uses safe-area-inset for browser compatibility -->
+    <div class="w-full relative px-3 sm:px-4 z-10 flex flex-col items-center" style="padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));">
         <!-- Glass Dock: Scales with viewport -->
-        <div class="w-full h-[22vw] max-h-[110px] max-w-[95vw] sm:max-w-[370px] bg-white/10 backdrop-blur-2xl rounded-[8vw] sm:rounded-[36px] px-4 sm:px-6 flex items-center justify-between shadow-2xl border border-white/10 ring-1 ring-white/5">
+        <div class="w-full h-[22vw] max-h-[110px] max-w-[95vw] sm:max-w-[370px] bg-white/10 backdrop-blur-2xl rounded-[8vw] sm:rounded-[36px] px-4 sm:px-6 flex items-center justify-between shadow-2xl border border-white/10 ring-1 ring-white/5 mb-4">
              {#each dockApps as app}
                 <button class="w-[16vw] h-[16vw] max-w-[72px] max-h-[72px] rounded-[3.5vw] sm:rounded-[17px] flex items-center justify-center active:scale-90 transition-transform focus:outline-none relative group" onclick={() => launch(app.id)}>
                      <img src={app.icon} alt={app.label} class="w-full h-full object-contain drop-shadow-lg filter brightness-105" draggable="false" />
