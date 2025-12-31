@@ -18,33 +18,123 @@
    import { windowStore } from '$lib/stores/windowStore';
    import { theme } from '$lib/stores/themeStore';
    import { locations, dockApps as dockItemsData } from '$lib/data/content';
+   import { fileSystemList } from '$lib/data/fileSystem';
    
    // Map locations keys to desktop icons
-   let desktopIcons = $state([
-       { 
-           id: locations.resume.type, 
-           name: locations.resume.name, 
-           icon: '/images/pdf.png', 
-           action: () => openWindow(locations.resume.type, locations.resume.name, 'resume', { src: '/resume.pdf' }),
-           pos: { x: 20, y: 40 } 
-       },
-       { 
-           id: locations.work.type, 
-           name: locations.work.name, 
-           icon: '/images/folder.png', 
-           action: () => openWindow(locations.work.type, locations.work.name, 'finder', { folderId: 'root-work', content: locations.work.children }),
-           pos: { x: 20, y: 180 } 
-       },
-       { 
-           id: locations.about.type, 
-           name: locations.about.name, 
-           icon: '/images/folder.png', 
-           folderType: 'blue',
-           action: () => openWindow(locations.about.type, locations.about.name, 'about', { content: locations.about.children }),
-           pos: { x: 20, y: 320 } 
-       },
-       // Add specific projects as shortcuts if desired, or keep them inside 'Work'
-   ]);
+   /**
+    * DESKTOP ICON LOGIC
+    * Generates the list of icons to display on the desktop based on the file system.
+    */
+   let desktopIcons = $state(
+       fileSystemList.map((item, i) => {
+           // Grid layout: Calculate position (6 rows per column)
+           const col = Math.floor(i / 6);
+           const row = i % 6;
+           
+           // Determine the icon image to use
+           let iconPath = item.icon;
+           if (!iconPath) {
+                if (item.type === 'folder') iconPath = '/images/folder.png';
+                else if (item.name.endsWith('.pdf')) iconPath = '/images/pdf.png';
+                else if (item.type === 'link') iconPath = '/images/safari.png';
+                else iconPath = '/images/txt.png';
+           }
+
+           return {
+               id: item.id,
+               name: item.name,
+               icon: iconPath,
+               action: () => handleIconClick(item), // Simplified click handler
+               pos: { x: 20 + (col * 110), y: 40 + (row * 100) },
+               folderType: undefined as string | undefined
+           };
+       })
+   );
+
+   /**
+    * HANDLE ICON CLICKS
+    * Determines which window to open based on the type of item clicked.
+    */
+   function handleIconClick(item: any) {
+       if (item.type === 'folder') {
+           // Open a Finder window for folders
+           openWindow(item.id, item.name, 'finder', { folderId: item.id });
+       } 
+       else if (item.type === 'link') {
+           // Open Safari for web links
+           openWindow(item.id, item.name, 'safari', { url: item.content });
+       } 
+       else if (item.type === 'file') {
+           // Handle specific file types
+           if (item.name.endsWith('.pdf')) {
+               openWindow(item.id, item.name, 'resume', { src: item.content });
+           } else if (item.metadata?.fileType === 'image') {
+               openWindow(item.id, item.name, 'photos', { filter: item.id });
+           } else {
+               // Default to text viewer for other files
+                // Special check for "About Us" to open the custom About window if preferred,
+                // otherwise it opens as a text file.
+               openWindow(item.id, item.name, 'text', { content: item.content, image: item.metadata?.image });
+           }
+       }
+   }
+
+   /**
+    * HERO TEXT ANIMATION
+    * Handles the interactive font-weight animation when hovering over the title.
+    */
+   function handleHeroMouseMove(e: MouseEvent) {
+        const { clientX, clientY } = e;
+        
+        // Animate Characters of "portfolio."
+        titleChars.forEach((char) => {
+            if (!char) return;
+            const rect = char.getBoundingClientRect();
+            const charCenterX = rect.left + rect.width / 2;
+            const charCenterY = rect.top + rect.height / 2;
+            
+            // Calculate distance from mouse to character
+            const dist = Math.hypot((clientX - charCenterX) * 0.35, clientY - charCenterY);
+            
+            // Calculate target font weight based on distance (closer = bolder)
+            const targetWeight = gsap.utils.clamp(100, 800, gsap.utils.mapRange(0, 120, 800, 100, dist));
+            
+            gsap.to(char, { 
+                fontWeight: targetWeight, 
+                duration: 0.5, 
+                ease: 'power2.out',
+                overwrite: 'auto'
+            });
+        });
+
+        // Animate Subtitle Characters
+        subtitleChars.forEach((char) => {
+            if (!char) return;
+            const rect = char.getBoundingClientRect();
+            const charCenterX = rect.left + rect.width / 2;
+            const charCenterY = rect.top + rect.height / 2;
+            
+            const dist = Math.hypot((clientX - charCenterX) * 0.35, clientY - charCenterY);
+            const targetWeight = gsap.utils.clamp(100, 600, gsap.utils.mapRange(0, 60, 600, 100, dist));
+                
+            gsap.to(char, { 
+                fontWeight: targetWeight, 
+                duration: 0.5, 
+                ease: 'power2.out',
+                overwrite: 'auto'
+            });
+        });
+   }
+
+   function handleHeroMouseLeave() {
+        // Reset all characters to thin font weight
+        titleChars.forEach(char => {
+            if(char) gsap.to(char, { fontWeight: 100, duration: 0.8, ease: 'power2.out' });
+        });
+        subtitleChars.forEach(char => {
+            if(char) gsap.to(char, { fontWeight: 100, duration: 0.8, ease: 'power2.out' });
+        });
+   }
 
    // Dock items from data
    let dockItems = dockItemsData.map(item => ({
@@ -142,63 +232,8 @@
                 <!-- Hero Text -->
                 <div 
                     class="hidden lg:flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center select-none text-white/95 drop-shadow-lg z-0 mix-blend-overlay w-full h-full"
-                    onmousemove={(e) => {
-                        const { clientX, clientY } = e;
-                        
-                        // Animate Characters of "portfolio."
-                        titleChars.forEach((char) => {
-                            if (!char) return;
-                            const rect = char.getBoundingClientRect();
-                            const charCenterX = rect.left + rect.width / 2;
-                            const charCenterY = rect.top + rect.height / 2;
-                            
-                            // Optimized: Elliptical distance (Horizontal range is wider)
-                            // We multiply X delta by 0.35, so the mouse can be roughly 3x further horizontally
-                            // while maintaining the same vertical sensitivity ("atas bawah pas")
-                            const dist = Math.hypot((clientX - charCenterX) * 0.35, clientY - charCenterY);
-                            
-                            // Optimized: Use a slightly longer duration for smoothness on low-end devices
-                            // Reduced radius to 120 to isolate effect
-                            const targetWeight = gsap.utils.clamp(100, 800, gsap.utils.mapRange(0, 120, 800, 100, dist));
-                            
-                            gsap.to(char, { 
-                                fontWeight: targetWeight, 
-                                duration: 0.5, // Smoother transition
-                                ease: 'power2.out',
-                                overwrite: 'auto'
-                            });
-                        });
-
-                        // Animate Subtitle Characters
-                        subtitleChars.forEach((char) => {
-                            if (!char) return;
-                            const rect = char.getBoundingClientRect();
-                            const charCenterX = rect.left + rect.width / 2;
-                            const charCenterY = rect.top + rect.height / 2;
-                            
-                            // Wide horizontal range (ellipse)
-                            const dist = Math.hypot((clientX - charCenterX) * 0.35, clientY - charCenterY);
-                            
-                            // Proximity radius for Y remains effectively ~60px
-                            // X radius is effectively ~170px
-                            const targetWeight = gsap.utils.clamp(100, 600, gsap.utils.mapRange(0, 60, 600, 100, dist));
-                             
-                            gsap.to(char, { 
-                                fontWeight: targetWeight, 
-                                duration: 0.5, 
-                                ease: 'power2.out',
-                                overwrite: 'auto'
-                            });
-                        });
-                    }}
-                    onmouseleave={() => {
-                        titleChars.forEach(char => {
-                            if(char) gsap.to(char, { fontWeight: 100, duration: 0.8, ease: 'power2.out' });
-                        });
-                        subtitleChars.forEach(char => {
-                            if(char) gsap.to(char, { fontWeight: 100, duration: 0.8, ease: 'power2.out' });
-                        });
-                    }}
+                    onmousemove={handleHeroMouseMove}
+                    onmouseleave={handleHeroMouseLeave}
                     role="application"
                 >
                     <p 
@@ -241,6 +276,9 @@
            </div>
        </div>
        
+        <!-- Dock (Moved to back layer) -->
+        <Dock items={dockItems} />
+
        <!-- Windows Layer -->
        <div class="absolute inset-0 z-10 pointer-events-none">
            <div class="relative w-full h-full pointer-events-none">
@@ -265,8 +303,5 @@
                 {/each}
            </div>
        </div>
-
-       <!-- Dock -->
-       <Dock items={dockItems} />
     </div>
 </div>

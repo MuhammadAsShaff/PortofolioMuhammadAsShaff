@@ -24,7 +24,11 @@
     });
 
     function startDrag(e: PointerEvent) {
-         if ((e.target as HTMLElement).closest('.window-controls')) return;
+         // Prevent drag if clicking interactive elements
+         if ((e.target as HTMLElement).closest('.window-controls, button, a, input, textarea, [role="button"], select, [contenteditable]')) {
+             return;
+         }
+         
          isDragging = true;
          if (currentWindow) {
              dragOffset = {
@@ -95,35 +99,39 @@
         width: 800px;
         max-width: 90vw;
         max-height: 80vh;
+        cursor: {isDragging ? 'grabbing' : 'grab'};
     "
     onmousedown={handleFocus}
+    onpointerdown={startDrag}
     role="dialog"
     aria-label={title}
     tabindex="-1"
 >
     <!-- Title Bar -->
     <div
-        class="h-10 {$theme === 'dark' ? 'bg-[#2a2a2a] text-gray-300' : 'bg-[#e5e5e5] text-gray-700'} flex items-center px-4 cursor-default select-none rounded-t-lg border-b {$theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}"
-        onpointerdown={startDrag}
+        class="h-10 {$theme === 'dark' ? 'bg-[#2a2a2a] text-gray-300' : 'bg-[#e5e5e5] text-gray-700'} flex items-center px-4 select-none rounded-t-lg border-b {$theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}"
     >
         <div class="window-controls flex gap-2 mr-4 group">
             <button
                 aria-label="Close window"
-                class="w-3 h-3 rounded-full bg-[#FF5F56] hover:bg-[#FF5F56]/80 flex items-center justify-center text-[8px] text-black/50 font-bold"
+                class="w-3 h-3 rounded-full bg-[#FF5F56] hover:bg-[#FF5F56]/80 flex items-center justify-center text-[8px] text-black/50 font-bold cursor-default"
                 onclick={(e) => { e.stopPropagation(); closeWin(); }}
+                onpointerdown={(e) => e.stopPropagation()}
             >
                 <span class="opacity-0 group-hover:opacity-100">x</span>
             </button>
             <button
                 aria-label="Minimize window"
-                class="w-3 h-3 rounded-full bg-[#FFBD2E] hover:bg-[#FFBD2E]/80 flex items-center justify-center text-[8px] text-black/50 font-bold"
+                class="w-3 h-3 rounded-full bg-[#FFBD2E] hover:bg-[#FFBD2E]/80 flex items-center justify-center text-[8px] text-black/50 font-bold cursor-default"
                 onclick={(e) => { e.stopPropagation(); minimizeWin(); }}
+                 onpointerdown={(e) => e.stopPropagation()}
             >
                  <span class="opacity-0 group-hover:opacity-100">-</span>
             </button>
             <button
                 aria-label="Maximize window"
-                class="w-3 h-3 rounded-full bg-[#27C93F] hover:bg-[#27C93F]/80 flex items-center justify-center text-[8px] text-black/50 font-bold"
+                class="w-3 h-3 rounded-full bg-[#27C93F] hover:bg-[#27C93F]/80 flex items-center justify-center text-[8px] text-black/50 font-bold cursor-default"
+                onpointerdown={(e) => e.stopPropagation()}
             >
                  <span class="opacity-0 group-hover:opacity-100">+</span>
             </button>

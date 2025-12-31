@@ -49,7 +49,7 @@
 
 <!-- Outer container to capture mouse area slightly larger -->
 <div 
-    class="fixed bottom-4 left-1/2 -translate-x-1/2 flex items-end justify-center z-50 h-32 px-4"
+    class="fixed bottom-4 left-1/2 -translate-x-1/2 flex items-end justify-center z-0 h-32 px-4"
     onmousemove={handleMouseMove}
     onmouseleave={resetScale}
     role="toolbar"
