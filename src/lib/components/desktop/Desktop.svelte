@@ -68,6 +68,8 @@
            // Handle specific file types
            if (item.name.endsWith('.pdf')) {
                openWindow(item.id, item.name, 'resume', { src: item.content });
+           } else if (item.metadata?.fileType === 'doc') {
+                openWindow(item.id, item.name, 'resume', { docData: item.metadata.docData });
            } else if (item.metadata?.fileType === 'image') {
                openWindow(item.id, item.name, 'photos', { filter: item.id });
            } else {

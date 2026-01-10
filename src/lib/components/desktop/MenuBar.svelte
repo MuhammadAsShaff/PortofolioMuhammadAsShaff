@@ -1,6 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { theme } from '$lib/stores/themeStore';
+    import { windowStore } from '$lib/stores/windowStore';
+    import { fileSystemList } from '$lib/data/fileSystem';
     
     let time = $state(new Date());
     let showThemeMenu = $state(false);
@@ -40,6 +42,28 @@
         }
         showThemeMenu = false;
     }
+
+    function openSection(id: string) {
+        const item = fileSystemList.find(i => i.id === id);
+        if (!item) return;
+
+        if (id === 'resume-work') {
+            windowStore.openWindow({
+                id: item.id,
+                title: 'Curriculum Vitae',
+                type: 'resume',
+                data: {} // Opens default HTML resume
+            });
+        } else {
+             // Open as Finder folder
+             windowStore.openWindow({
+                id: item.id,
+                title: item.name,
+                type: 'finder',
+                data: { folderId: item.id }
+            });
+        }
+    }
 </script>
 
 <div class="h-10 w-full bg-white/40 dark:bg-black/40 backdrop-blur-md flex items-center justify-between px-6 text-black dark:text-white transition-colors z-50 fixed top-0 select-none shadow-sm">
@@ -49,10 +73,12 @@
         </div>
         <span class="font-bold hidden sm:block text-[15px] tracking-wide">Muhammad As Shaff's Portfolio</span>
         <div class="hidden md:flex gap-6 text-[15px] font-medium">
-            <button class="hover:text-blue-500 transition-colors">Projects</button>
-            <button class="hover:text-blue-500 transition-colors">Testimonials</button>
-            <button class="hover:text-blue-500 transition-colors">Contact</button>
-            <button class="hover:text-blue-500 transition-colors">Resume</button>
+            <button class="hover:text-blue-500 transition-colors" onclick={() => openSection('internships')}>Internships</button>
+            <button class="hover:text-blue-500 transition-colors" onclick={() => openSection('projects')}>Projects</button>
+            <button class="hover:text-blue-500 transition-colors" onclick={() => openSection('awards')}>Awards</button>
+            <button class="hover:text-blue-500 transition-colors" onclick={() => openSection('certificates')}>Certificates</button>
+            <button class="hover:text-blue-500 transition-colors" onclick={() => openSection('organizations')}>Organizations</button>
+            <button class="hover:text-blue-500 transition-colors" onclick={() => openSection('resume-work')}>CV</button>
         </div>
     </div>
     

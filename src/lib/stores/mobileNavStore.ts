@@ -1,7 +1,7 @@
 
 import { writable } from 'svelte/store';
 
-export type MobilePage = 'home' | 'work' | 'work-detail' | 'photos' | 'safari' | 'contact' | 'tech' | 'about';
+export type MobilePage = 'home' | 'work' | 'work-detail' | 'photos' | 'safari' | 'contact' | 'tech' | 'about' | 'document';
 
 interface MobileState {
     page: MobilePage;

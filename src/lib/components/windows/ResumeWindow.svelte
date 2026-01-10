@@ -9,139 +9,155 @@
         <!-- A4-like Container -->
         <div class="bg-white text-black shadow-lg p-8 md:p-12 max-w-[800px] w-full mx-auto h-auto min-h-[1100px] text-sm">
             
-            <!-- Header -->
-            <div class="flex flex-col md:flex-row gap-6 mb-8 border-b-2 border-black pb-6">
-                <!-- Profile Photo -->
-                <div class="w-40 h-52 bg-gray-200 flex-shrink-0 overflow-hidden border border-gray-300">
-                     <img src="/images/fotoprofil.JPG" alt="Profile" class="w-full h-full object-cover" />
+            {#if data?.docData}
+                 <!-- Dynamic Document View (for Awards, etc.) -->
+                 <div class="mb-8 border-b-2 border-black pb-6">
+                    <h1 class="text-3xl font-bold mb-2">{data.docData.title}</h1>
+                    <div class="text-xs text-gray-700 font-bold uppercase tracking-wider mb-4">
+                        {data.docData.issuer} • {data.docData.date}
+                    </div>
                 </div>
                 
-                <!-- Contact Info -->
-                <div class="flex-1">
-                    <h1 class="text-3xl font-bold mb-2">Muhammad As Shaff</h1>
-                    <div class="text-[11px] text-gray-700 space-y-1 mb-3">
-                        <p class="flex flex-wrap gap-2">
-                            <span>+628984818977</span> |
-                            <span>as22si@mahasiswa.pcr.ac.id</span> |
-                            <a href="https://www.linkedin.com/in/muhammad-as-shaff-399b8a296/" target="_blank" class="text-blue-700 hover:underline">LinkedIn</a> |
-                            <a href="https://github.com/MuhammadAsShaff" target="_blank" class="text-blue-700 hover:underline">GitHub</a> |
-                            <a href="https://www.behance.net/MuhammadAsShaff61" target="_blank" class="text-blue-700 hover:underline">Behance</a>
+                <div class="text-sm leading-relaxed text-justify space-y-4">
+                     {#each data.docData.description.split('\n') as paragraph}
+                        <p>{paragraph}</p>
+                     {/each}
+                </div>
+            {:else}
+                <!-- Default Resume Content (Hardcoded) -->
+                <!-- Header -->
+                <div class="flex flex-col md:flex-row gap-6 mb-8 border-b-2 border-black pb-10">
+                    <!-- Profile Photo -->
+                    <div class="w-40 h-52 bg-gray-200 flex-shrink-0 overflow-hidden border border-gray-300">
+                         <img src="/images/fotoprofil.JPG" alt="Profile" class="w-full h-full object-cover" />
+                    </div>
+                    
+                    <!-- Contact Info -->
+                    <div class="flex-1">
+                        <h1 class="text-4xl font-bold mb-2">Muhammad As Shaff</h1>
+                        <div class="text-[11px] text-gray-700 space-y-1 mb-3">
+                            <p class="flex flex-wrap gap-2">
+                                <span>+628984818977</span> |
+                                <span>as22si@mahasiswa.pcr.ac.id</span> |
+                                <a href="https://www.linkedin.com/in/muhammad-as-shaff-399b8a296/" target="_blank" class="text-blue-700 hover:underline">LinkedIn</a> |
+                                <a href="https://github.com/MuhammadAsShaff" target="_blank" class="text-blue-700 hover:underline">GitHub</a> |
+                                <a href="https://www.behance.net/MuhammadAsShaff61" target="_blank" class="text-blue-700 hover:underline">Behance</a>
+                            </p>
+                            <p>Jl.Tegalsari, GG.Mekarsari, No.12, Pekanbaru</p>
+                        </div>
+                        <p class="text-xs text-justify leading-relaxed">
+                            Mahasiswa semester 4 jurusan Sistem Informasi yang memiliki minat karier di bidang Data dan UI/UX. 
+                            Selama berkuliah memiliki pengalaman dalam organisasi menjalankan beberapa projek acara serta menjadi aktif 
+                            dalam kepengurusan sebagai penanggung jawab Departemen Kominfo. Memiliki kemampuan komunikasi yang efektif 
+                            dan memiliki kemampuan analisis, visualisasi data serta desain.
                         </p>
-                        <p>Jl.Tegalsari, GG.Mekarsari, No.12, Pekanbaru</p>
                     </div>
-                    <p class="text-xs text-justify leading-relaxed">
-                        Mahasiswa semester 4 jurusan Sistem Informasi yang memiliki minat karier di bidang Data dan UI/UX. 
-                        Selama berkuliah memiliki pengalaman dalam organisasi menjalankan beberapa projek acara serta menjadi aktif 
-                        dalam kepengurusan sebagai penanggung jawab Departemen Kominfo. Memiliki kemampuan komunikasi yang efektif 
-                        dan memiliki kemampuan analisis, visualisasi data serta desain.
-                    </p>
                 </div>
-            </div>
-
-            <!-- Sections -->
-            <div class="space-y-6">
-                
-                <!-- Pendidikan -->
-                <section>
-                    <h2 class="text-lg font-bold border-b border-black mb-3">Pendidikan</h2>
-                    <div class="mb-4">
-                        <div class="flex justify-between font-bold">
-                            <span>Politeknik Caltex Riau <span class="font-normal text-gray-700">(Pekanbaru, Indonesia)</span></span>
-                            <span class="text-xs">Sep 2022 - Sep 2026 (Diharapkan)</span>
-                        </div>
-                        <div class="text-xs mt-1">Sistem Informasi - 3.80/4.00</div>
-                        <div class="text-xs text-gray-600 mt-1 italic">
-                            Mata kuliah relevan: Desain Pengalaman Pengguna, Data Mining, Visualisasi Data, Basis Data, Pemrograman
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between font-bold">
-                            <span>SMAN 3 Pekanbaru <span class="font-normal text-gray-700">(Pekanbaru, Indonesia)</span></span>
-                            <span class="text-xs">Juli 2019 - May 2022</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Pengalaman -->
-                <section>
-                    <h2 class="text-lg font-bold border-b border-black mb-3">Pengalaman</h2>
-                    <div class="space-y-3">
-                        <!-- Item 1 -->
-                        <div>
+    
+                <!-- Sections -->
+                <div class="space-y-6">
+                    
+                    <!-- Pendidikan -->
+                    <section>
+                        <h2 class="text-lg font-bold border-b border-black mb-3">Pendidikan</h2>
+                        <div class="mb-4">
                             <div class="flex justify-between font-bold">
-                                <span>• Membuat Sistem Keuangan Puskesmas Umban Sari</span>
-                                <span class="text-xs">Juli 2023 - Januari 2024</span>
+                                <span>Politeknik Caltex Riau <span class="font-normal text-gray-700">(Pekanbaru, Indonesia)</span></span>
+                                <span class="text-xs">Sep 2022 - Sep 2026 (Diharapkan)</span>
                             </div>
-                            <p class="text-xs pl-3 text-gray-700">Membuat Sistem Keuangan berbasis Web Laravel untuk Puskesmas Umban Sari</p>
-                        </div>
-                         <!-- Item 2 -->
-                        <div>
-                            <div class="flex justify-between font-bold">
-                                <span>• Membuat UI/UX Aplikasi Donasi Barang bekas BeWise</span>
-                                <span class="text-xs">Agustus 2023 - Januari 2024</span>
+                            <div class="text-xs mt-1">Sistem Informasi - 3.80/4.00</div>
+                            <div class="text-xs text-gray-600 mt-1 italic">
+                                Mata kuliah relevan: Desain Pengalaman Pengguna, Data Mining, Visualisasi Data, Basis Data, Pemrograman
                             </div>
-                            <p class="text-xs pl-3 text-gray-700">Membuat UI/UX dengan metode desain Thinking dan Penggunaan Figma</p>
-                        </div>
-                         <!-- Item 3 -->
-                        <div>
-                            <div class="flex justify-between font-bold">
-                                <span>• Membuat Sistem Klasifikasi Dengan Mechine Learning</span>
-                                <span class="text-xs">Sekarang</span>
-                            </div>
-                            <p class="text-xs pl-3 text-gray-700">Membuat Sistem yang dapat mendeteksi gambar yang di inputkan</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Pelatihan & Sertifikat -->
-                 <section>
-                    <h2 class="text-lg font-bold border-b border-black mb-3">Pelatihan Dan Sertifikat</h2>
-                    <div class="space-y-2 text-xs">
-                        <div>
-                            <span class="font-bold">• Pemograman Python, Dicoding</span>
-                            <p class="pl-3 text-gray-700">Modul: Ekspresi, Aksi Sekuensial, Control Flow, Array dan Pemrosesannya, Matriks, Subprogram, Object Oriented Programing, Style Guide pada Pyhton, Unit Testing, Library Populer Pada Python</p>
-                        </div>
-                        <div>
-                            <span class="font-bold">• Visualisasi Data, Dicoding</span>
-                            <p class="pl-3 text-gray-700">Modul: Persiapan Data PraVisualisasi, Transformasi Data ke Visual</p>
-                        </div>
-                        <div>
-                            <span class="font-bold">• Machine Learning</span>
-                            <p class="pl-3 text-gray-700">Modul: Pengenalan Data, Supervised dan Unsupervised Learning, Support Vector Machine, Dasar Dasar Machine Learning, Neural Network, Tensor Flow</p>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- Aktivitas Organisasi -->
-                 <section>
-                    <h2 class="text-lg font-bold border-b border-black mb-3">Aktivitas Organisasi</h2>
-                    <div class="space-y-3">
-                         <div>
-                            <div class="flex justify-between font-bold">
-                                <span>• Departemen Kominfo HIMASITIFO (Himpunan Mahasiswa Sistem Informasi)</span>
-                                <span class="text-xs">2023 - 2024</span>
-                            </div>
-                            <div class="text-xs pl-3 italic">Penanggung Jawab Departemen</div>
-                            <p class="text-xs pl-3 text-gray-700">Memberikan informasi melalui media sosial, editing serta dokumentasi kegiatan</p>
                         </div>
                         <div>
                             <div class="flex justify-between font-bold">
-                                <span>• PMB Basketball Competition 2023</span>
-                                <span class="text-xs">Desember 2023</span>
+                                <span>SMAN 3 Pekanbaru <span class="font-normal text-gray-700">(Pekanbaru, Indonesia)</span></span>
+                                <span class="text-xs">Juli 2019 - May 2022</span>
                             </div>
-                             <div class="text-xs pl-3 italic">Koordinator Divisi Dokumentasi</div>
-                            <p class="text-xs pl-3 text-gray-700">Kegiatan perlombaan basket oleh Penerimaan Mahasiswa Baru Politeknik Caltex Riau</p>
                         </div>
-                        <div>
-                            <div class="flex justify-between font-bold">
-                                <span>• JTI Expo 2024</span>
-                                <span class="text-xs">Juni 2024 - Sekarang</span>
+                    </section>
+    
+                    <!-- Pengalaman -->
+                    <section>
+                        <h2 class="text-lg font-bold border-b border-black mb-3">Pengalaman</h2>
+                        <div class="space-y-3">
+                            <!-- Item 1 -->
+                            <div>
+                                <div class="flex justify-between font-bold">
+                                    <span>• Membuat Sistem Keuangan Puskesmas Umban Sari</span>
+                                    <span class="text-xs">Juli 2023 - Januari 2024</span>
+                                </div>
+                                <p class="text-xs pl-3 text-gray-700">Membuat Sistem Keuangan berbasis Web Laravel untuk Puskesmas Umban Sari</p>
                             </div>
-                             <div class="text-xs pl-3 italic">Koordinator Divisi Dokumentasi</div>
-                            <p class="text-xs pl-3 text-gray-700">Kegiatan Expo dari project mahasiswa Politeknik Caltex Riau Jurusan Teknologi Informasi</p>
+                             <!-- Item 2 -->
+                            <div>
+                                <div class="flex justify-between font-bold">
+                                    <span>• Membuat UI/UX Aplikasi Donasi Barang bekas BeWise</span>
+                                    <span class="text-xs">Agustus 2023 - Januari 2024</span>
+                                </div>
+                                <p class="text-xs pl-3 text-gray-700">Membuat UI/UX dengan metode desain Thinking dan Penggunaan Figma</p>
+                            </div>
+                             <!-- Item 3 -->
+                            <div>
+                                <div class="flex justify-between font-bold">
+                                    <span>• Membuat Sistem Klasifikasi Dengan Mechine Learning</span>
+                                    <span class="text-xs">Sekarang</span>
+                                </div>
+                                <p class="text-xs pl-3 text-gray-700">Membuat Sistem yang dapat mendeteksi gambar yang di inputkan</p>
+                            </div>
                         </div>
-                    </div>
-                 </section>
+                    </section>
+    
+                    <!-- Pelatihan & Sertifikat -->
+                     <section>
+                        <h2 class="text-lg font-bold border-b border-black mb-3">Pelatihan Dan Sertifikat</h2>
+                        <div class="space-y-2 text-xs">
+                            <div>
+                                <span class="font-bold">• Pemograman Python, Dicoding</span>
+                                <p class="pl-3 text-gray-700">Modul: Ekspresi, Aksi Sekuensial, Control Flow, Array dan Pemrosesannya, Matriks, Subprogram, Object Oriented Programing, Style Guide pada Pyhton, Unit Testing, Library Populer Pada Python</p>
+                            </div>
+                            <div>
+                                <span class="font-bold">• Visualisasi Data, Dicoding</span>
+                                <p class="pl-3 text-gray-700">Modul: Persiapan Data PraVisualisasi, Transformasi Data ke Visual</p>
+                            </div>
+                            <div>
+                                <span class="font-bold">• Machine Learning</span>
+                                <p class="pl-3 text-gray-700">Modul: Pengenalan Data, Supervised dan Unsupervised Learning, Support Vector Machine, Dasar Dasar Machine Learning, Neural Network, Tensor Flow</p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Aktivitas Organisasi -->
+                     <section>
+                        <h2 class="text-lg font-bold border-b border-black mb-3">Aktivitas Organisasi</h2>
+                        <div class="space-y-3">
+                             <div>
+                                <div class="flex justify-between font-bold">
+                                    <span>• Departemen Kominfo HIMASITIFO (Himpunan Mahasiswa Sistem Informasi)</span>
+                                    <span class="text-xs">2023 - 2024</span>
+                                </div>
+                                <div class="text-xs pl-3 italic">Penanggung Jawab Departemen</div>
+                                <p class="text-xs pl-3 text-gray-700">Memberikan informasi melalui media sosial, editing serta dokumentasi kegiatan</p>
+                            </div>
+                            <div>
+                                <div class="flex justify-between font-bold">
+                                    <span>• PMB Basketball Competition 2023</span>
+                                    <span class="text-xs">Desember 2023</span>
+                                </div>
+                                 <div class="text-xs pl-3 italic">Koordinator Divisi Dokumentasi</div>
+                                <p class="text-xs pl-3 text-gray-700">Kegiatan perlombaan basket oleh Penerimaan Mahasiswa Baru Politeknik Caltex Riau</p>
+                            </div>
+                            <div>
+                                <div class="flex justify-between font-bold">
+                                    <span>• JTI Expo 2024</span>
+                                    <span class="text-xs">Juni 2024 - Sekarang</span>
+                                </div>
+                                 <div class="text-xs pl-3 italic">Koordinator Divisi Dokumentasi</div>
+                                <p class="text-xs pl-3 text-gray-700">Kegiatan Expo dari project mahasiswa Politeknik Caltex Riau Jurusan Teknologi Informasi</p>
+                            </div>
+                        </div>
+                     </section>
 
                 <!-- Pencapaian -->
                  <section>
@@ -169,6 +185,7 @@
                     </div>
                  </section>
             </div>
+            {/if}
             
             <!-- Download Action -->
             {#if data?.src}

@@ -8,6 +8,7 @@
     import MobileContact from './MobileContact.svelte';
     import MobileAbout from './MobileAbout.svelte';
     import MobileTechStack from './MobileTechStack.svelte';
+    import MobileDocument from './MobileDocument.svelte';
     import { fly } from 'svelte/transition';
     import { cubicOut } from 'svelte/easing';
 </script>
@@ -33,6 +34,8 @@
                 <MobileTechStack />
             {:else if $mobileNav.page === 'about'}
                 <MobileAbout />
+             {:else if $mobileNav.page === 'document'}
+                <MobileDocument />
             {:else}
                 <div class="h-full flex items-center justify-center flex-col gap-4">
                      <!-- Fallback -->

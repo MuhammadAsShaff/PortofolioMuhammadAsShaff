@@ -4,8 +4,14 @@
     
     // Top Left Apps (Mini Desktop style)
     const desktopApps = [
-         { id: 'resume', name: 'Resume', icon: '/images/notes.png', bg: 'bg-[#FFCC00]', type: 'img', label: 'Resume' },
-         { id: 'terminal', name: 'Skills', icon: '/images/terminal.png', bg: 'bg-black', type: 'img', label: 'Terminal' },
+         { id: 'about-me', name: 'About Me', icon: '/images/txt.png', bg: 'bg-transparent', type: 'img', label: 'About Me' },
+         { id: 'resume-work', name: 'Curriculum Vitae', icon: '/images/pdf.png', bg: 'bg-transparent', type: 'img', label: 'CV' },
+         { id: 'projects', name: 'Projects', icon: '/images/folder.png', bg: 'bg-white', type: 'img', label: 'Projects' },
+         { id: 'internships', name: 'Internships', icon: '/images/folder.png', bg: 'bg-white', type: 'img', label: 'Internships' },
+         { id: 'awards', name: 'Awards', icon: '/images/folder.png', bg: 'bg-white', type: 'img', label: 'Awards' },
+         { id: 'certificates', name: 'Certificates', icon: '/images/folder.png', bg: 'bg-white', type: 'img', label: 'Certificates' },
+         { id: 'organizations', name: 'Organizations', icon: '/images/folder.png', bg: 'bg-white', type: 'img', label: 'Org.' },
+         { id: 'terminal', name: 'Skills', icon: '/images/txt.png', bg: 'bg-transparent', type: 'img', label: 'Skills' },
     ];
     
     // Bottom Dock Apps
@@ -35,11 +41,22 @@
     });
     
     function launch(id: string) {
-        if (id === 'resume') {
-             mobileNav.goTo('work', { path: 'root-resume' });
+        if (id === 'terminal') {
+             mobileNav.goTo('tech');
+        } else if (id === 'about-me') {
+             mobileNav.goTo('about');
+        } else if (id === 'resume-work') {
+             mobileNav.goTo('document', {});
+        } else if (dockApps.some(a => a.id === id)) {
+             if (id === 'work') {
+                 mobileNav.goTo('work', { path: 'root' });
+             } else {
+                 // @ts-ignore
+                 mobileNav.goTo(id);
+             }
         } else {
-             // @ts-ignore
-             mobileNav.goTo(id);
+             // Assume folder/item for Work app
+             mobileNav.goTo('work', { path: id });
         }
     }
 </script>
@@ -74,21 +91,22 @@
     <main class="flex-1 relative z-10 flex flex-col px-[4vw] pt-[4vh]">
         
         <!-- Top App Icons: Responsive grid -->
-        <div class="flex gap-[3vw] sm:gap-4">
+        <!-- Top App Icons: Responsive grid -->
+        <div class="grid grid-cols-4 gap-x-[3vw] gap-y-[4vw] sm:gap-6 justify-items-center">
             {#each desktopApps as app}
                 <button 
-                    class="group focus:outline-none active:scale-95 transition-transform"
+                    class="group focus:outline-none active:scale-95 transition-transform flex flex-col items-center gap-1"
                     onclick={() => launch(app.id)}
                 >
-                    <div class="w-[20vw] h-[20vw] max-w-[80px] max-h-[80px] rounded-[4.5vw] sm:rounded-[20px] shadow-xl bg-black/5 ring-1 ring-white/10 overflow-hidden">
-                        {#if app.id === 'resume'}
-                             <img src="/images/pages.png" alt={app.label} class="w-full h-full object-contain p-[2vw] sm:p-2" />
-                        {:else if app.id === 'terminal'}
-                             <img src="/images/terminal.png" alt={app.label} class="w-full h-full object-contain p-[2vw] sm:p-2" />
-                        {:else}
-                             <img src={app.icon} alt={app.label} class="w-full h-full object-cover" />
-                        {/if}
+                    <!-- Larger icons, no stroke -->
+                    <div class="w-[16vw] h-[16vw] max-w-[64px] max-h-[64px] rounded-[3.5vw] sm:rounded-[16px] shadow-sm {app.bg || ''}  overflow-hidden flex items-center justify-center">
+                         <img 
+                            src={app.icon} 
+                            alt={app.label} 
+                            class="w-full h-full object-contain drop-shadow-xl {(app.id === 'resume-work' || app.id === 'terminal') ? '' : 'p-[2vw] sm:p-2.5'}" 
+                         />
                     </div>
+                    <span class="text-[3vw] sm:text-xs font-medium text-white drop-shadow-md">{app.label}</span>
                 </button>
             {/each}
         </div>

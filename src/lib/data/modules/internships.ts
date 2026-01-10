@@ -6,11 +6,18 @@ export const internshipsData: FileSystemItem = {
     type: 'folder',
     children: [
         {
-            id: 'intern-1',
-            name: 'Internship.txt',
-            type: 'file',
-            content: 'Details about internship experience will be detailed here.',
-            metadata: { fileType: 'text' }
+            id: 'pt-abrisam',
+            name: 'PT Abrisam Bintan Indonesia',
+            type: 'folder',
+            children: [
+                {
+                    id: 'intern-log',
+                    name: 'Internship Log.txt',
+                    type: 'file',
+                    content: 'No content yet.',
+                    metadata: { fileType: 'text' }
+                }
+            ]
         }
     ]
 };
